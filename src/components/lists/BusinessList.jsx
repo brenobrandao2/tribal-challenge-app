@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import ItemButton from '../buttons/ItemButton';
 
