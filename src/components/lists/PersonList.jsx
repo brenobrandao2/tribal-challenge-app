@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, StyleSheet, RefreshControl } from 'react-native';
-import ItemButton from '../buttons/ItemButton';
+import PersonInfoCard from '../cards/PersonInfoCard';
 
-const BusinessList = (props) => {
-
-    const openBusiness = (business) => {
-        props.navigation.navigate('Persons', {
-            business
-        })
-    }
+const PersonList = (props) => {
+    const business = props.business
 
     const onRefresh = async () => {
-        await props.refreshBusinessList()
+        await props.refreshPersonList()
     }
 
     return (
@@ -26,12 +21,12 @@ const BusinessList = (props) => {
             }
         >
             {
-                props.items.map((item) => {
+                props.items.map((item, index) => {
                     return(
-                        <ItemButton
-                            key={item.businessId}
-                            name={item.name}
-                            action={() => openBusiness(item)}
+                        <PersonInfoCard
+                            key={index}
+                            business={business}
+                            person={item}
                             navigation={props.navigation}
                         />
                     )
@@ -44,11 +39,10 @@ const BusinessList = (props) => {
 const styles = StyleSheet.create({
     scrollContent: {
         alignItems: 'center',
-        paddingVertical: 25,
     },
     scrollContainer: {
         width: '100%',
     },
 })
 
-export default BusinessList;
+export default PersonList;

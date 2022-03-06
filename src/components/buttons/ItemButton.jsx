@@ -6,7 +6,7 @@ const arrowRightIcon = require('../../../assets/next.png')
 const ItemButton = (props) => {
     const name = props.name
     return (
-        <TouchableOpacity style={styles.container} onPress={() => props.action(props.id, props.name)}>
+        <TouchableOpacity style={styles.container} onPress={() => props.action()}>
             <Text style={styles.name}>{name}</Text>
             <Image source={arrowRightIcon} style={styles.iconRight}/>
         </TouchableOpacity>
@@ -21,13 +21,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginVertical: 5,
-        // backgroundColor: 'red',
         borderBottomWidth: 1,
         borderStyle: 'solid',
         borderBottomColor: 'rgba(230, 230, 230, 0.8)'
     },
     name: {
-        fontSize: 30,
+        fontSize: 20,
     },
     iconRight: {
         height: 20,

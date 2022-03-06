@@ -1,11 +1,12 @@
 import axios from "axios";
+import Constants from "../utils/Constants";
 
 const config = {
     headers: {
-        'x-api-key': 'EoYGX95kDX5I1zYSzczrx47EM4QuFfKh9OIWCeew',
+        'x-api-key': Constants.API_KEY,
         'Content-Type': 'application/json'
     },
-    baseURL: 'https://us4b9c5vv0.execute-api.us-east-1.amazonaws.com/prod'
+    baseURL: Constants.BASE_URL
 }
 
 export default class Business {
@@ -39,7 +40,7 @@ export default class Business {
         return response
     }
 
-    static async update(businessId, name) {
+    static async update({ businessId, name }) {
         const url = `/business/${businessId}`
         const body = {
             name
