@@ -4,15 +4,14 @@ import {
   TouchableOpacity,
   View,
   Image,
-  ActivityIndicator,
-  Text,
+  ActivityIndicator
 } from 'react-native';
 import { useQuery } from 'react-query';
+import FetchError from '../components/error/FetchError';
 import BusinessList from '../components/lists/BusinessList';
 import BusinessRepository from '../repositories/BusinessRepository';
 
 const plusIcon = require('../../assets/plus.png');
-const fetchErrorText = `Could not fetch data \nPlease check your internet connection`;
 
 const Businesses = ({ navigation }) => {
   const { data, isLoading, isError, isRefetching, refetch } = useQuery(
@@ -32,9 +31,7 @@ const Businesses = ({ navigation }) => {
 
   if (isError) {
     return (
-      <View style={styles.errorView}>
-        <Text style={styles.errorText}>{fetchErrorText}</Text>
-      </View>
+      <FetchError action={refetch} />
     );
   }
 
@@ -81,15 +78,6 @@ const styles = StyleSheet.create({
   loadingSpinner: {
     backgroundColor: '#fff',
     flex: 1,
-  },
-  errorView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorText: {
-    fontSize: 18,
-    textAlign: 'center',
   },
 });
 

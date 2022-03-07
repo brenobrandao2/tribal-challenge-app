@@ -3,12 +3,9 @@ import { StyleSheet, TextInput, View, ActivityIndicator } from 'react-native';
 import SimpleButton from '../components/buttons/SimpleButton';
 import BusinessRepository from '../repositories/BusinessRepository';
 import PersonRepository from '../repositories/PersonRepository';
-import { confirmationAlert, invalidFieldAlert } from '../utils/Alerts';
+import { confirmationAlert, simpleMessageAlert } from '../utils/Alerts';
 import { useMutation, useQueryClient } from 'react-query';
-
-const confirmBusinessDeletion =
-  'Do you really want to delete this business and all its employees?';
-const invalidBusinessName = 'Please enter the business name';
+import { businessTexts } from '../utils/Messages';
 
 const Business = ({ route, navigation }) => {
   const queryClient = useQueryClient();
@@ -28,29 +25,40 @@ const Business = ({ route, navigation }) => {
 
   const createBusiness = async () => {
     if (!businessName) {
-      invalidFieldAlert(invalidBusinessName);
+      simpleMessageAlert(businessTexts.invalidBusinessName)
     } else {
-      await mutateCreate(businessName);
-      goBack();
+      await mutateCreate(businessName)
+        .then(() => goBack())
+        .catch(() => {
+          simpleMessageAlert(businessTexts.failToSaveBusiness)
+        })
     }
   };
 
   const updateBusiness = async () => {
     if (!businessName) {
-      invalidFieldAlert(invalidBusinessName);
+      simpleMessageAlert(businessTexts.invalidBusinessName);
     } else {
-      await mutateUpdate({ businessId, name: businessName });
-      goBack();
+      await mutateUpdate({ businessId, name: businessName })
+        .then(() => goBack())
+        .catch(() => {
+          simpleMessageAlert(businessTexts.failToSaveBusiness)
+        })
     }
   };
 
   const confirmDeletion = () => {
-    confirmationAlert(confirmBusinessDeletion, deleteBusinessAndPersons);
+    confirmationAlert(businessTexts.confirmBusinessDeletion, deleteBusinessAndPersons);
   };
 
   const deleteBusinessAndPersons = async () => {
-    await deleteBusinessPersons();
-    await deleteBusiness();
+    try{
+      await deleteBusinessPersons();
+      await deleteBusiness();
+    }
+    catch(error) {
+      simpleMessageAlert(businessTexts.failToDeleteBusiness)
+    }
   };
 
   const deleteBusinessPersons = async () => {

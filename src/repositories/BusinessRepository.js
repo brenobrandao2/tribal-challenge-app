@@ -20,7 +20,7 @@ export default class Business {
         const response = await axios.get(url, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response?.businesses?.map((business) => new Business(business.name, business.businessId)) || []
@@ -34,7 +34,7 @@ export default class Business {
         const response = await axios.post(url, body, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response
@@ -48,7 +48,7 @@ export default class Business {
         const response = await axios.put(url, body, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response
@@ -59,7 +59,7 @@ export default class Business {
         const response = await axios.delete(url, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response

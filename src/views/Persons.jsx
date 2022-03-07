@@ -10,10 +10,10 @@ import {
 import PersonList from '../components/lists/PersonList';
 import PersonRepository from '../repositories/PersonRepository';
 import { useQuery } from 'react-query';
+import FetchError from '../components/error/FetchError';
 
 const plusIcon = require('../../assets/plus.png');
 const editIcon = require('../../assets/edit.png');
-const dataFetchFail = `Could not fetch data \nPlease check your internet connection`;
 
 const Persons = ({ route, navigation }) => {
   const { business } = route.params || {};
@@ -34,9 +34,7 @@ const Persons = ({ route, navigation }) => {
 
   if (isError) {
     return (
-      <View style={styles.errorView}>
-        <Text style={styles.errorText}>{dataFetchFail}</Text>
-      </View>
+      <FetchError action={refetch} />
     );
   }
 
@@ -110,15 +108,6 @@ const styles = StyleSheet.create({
   loadingSpinner: {
     backgroundColor: '#fff',
     flex: 1,
-  },
-  errorView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorText: {
-    fontSize: 18,
-    textAlign: 'center',
   },
 });
 

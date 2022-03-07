@@ -1,6 +1,6 @@
 import { Alert } from "react-native"
 
-export const invalidFieldAlert = (text) => {
+export const simpleMessageAlert = (text) => {
     return Alert.alert(
         '',
         text,

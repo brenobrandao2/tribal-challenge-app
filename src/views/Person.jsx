@@ -3,13 +3,10 @@ import { StyleSheet, TextInput, View, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import SimpleButton from '../components/buttons/SimpleButton';
 import PersonRepository from '../repositories/PersonRepository';
-import { confirmationAlert, invalidFieldAlert } from '../utils/Alerts';
+import { confirmationAlert, simpleMessageAlert } from '../utils/Alerts';
 import { useMutation, useQueryClient } from 'react-query';
 import { validateEmail } from '../utils/Validations'
-
-const checkFields = 'Please enter all fields';
-const confirmPersonDeletion = 'Do you really want to delete this person?';
-const invalidEmail = 'Please enter a valid e-mail';
+import { personTexts } from '../utils/Messages';
 
 const Person = ({ route, navigation }) => {
   const queryClient = useQueryClient();
@@ -46,20 +43,30 @@ const Person = ({ route, navigation }) => {
     if (validateForm()) {
       if (businessId && personId) {
         await mutateUpdate({ businessId, personId, person: getPerson() })
+          .then(() => goBack())
+          .catch(() => {
+            simpleMessageAlert(personTexts.failToSavePerson)
+          })
       } else {
         await mutateCreate({ businessId, person: getPerson() })
+          .then(() => goBack())
+          .catch(() => {
+            simpleMessageAlert(personTexts.failToSavePerson)
+          })
       }
-      goBack()
     }
   };
 
   const deletePerson = async () => {
-    await mutateDelete({ businessId, personId });
-    goBack();
+    await mutateDelete({ businessId, personId })
+      .then(() => goBack())
+      .catch(() => {
+        simpleMessageAlert(personTexts.failToDeletePerson)
+      })
   };
 
   const confirmDeletion = () => {
-    confirmationAlert(confirmPersonDeletion, deletePerson);
+    confirmationAlert(personTexts.confirmPersonDeletion, deletePerson);
   };
 
   const goBack = () => {
@@ -69,10 +76,10 @@ const Person = ({ route, navigation }) => {
 
   const validateForm = () => {
     if (isAnyFieldEmpty()) {
-        invalidFieldAlert(checkFields)
+        simpleMessageAlert(personTexts.checkFields)
         return false
     } else if (!validateEmail(personEmail)){
-        invalidFieldAlert(invalidEmail)
+        simpleMessageAlert(personTexts.invalidEmail)
         return false
     }
     return true

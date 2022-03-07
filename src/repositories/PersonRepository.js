@@ -23,7 +23,7 @@ export default class Person {
         const response = await axios.get(url, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response?.persons?.map((person) => new Person(
@@ -39,7 +39,7 @@ export default class Person {
         const response = await axios.post(url, person, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response
@@ -50,7 +50,7 @@ export default class Person {
         const response = await axios.put(url, person, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response
@@ -61,7 +61,7 @@ export default class Person {
         const response = await axios.delete(url, config).then(response => {
             return response.data
         }).catch(error => {
-            console.log(error)
+            throw new Error(error)
         })
 
         return response
