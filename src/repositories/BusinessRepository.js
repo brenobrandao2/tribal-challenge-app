@@ -15,6 +15,10 @@ export default class Business {
         this.businessId = businessId
     }
 
+    /**
+     * Returns all businesses
+     * @returns {Array<Business>} list of businesses
+     */
     static async getAll() {
         const url = `/business`
         const response = await axios.get(url, config).then(response => {
@@ -26,6 +30,10 @@ export default class Business {
         return response?.businesses?.map((business) => new Business(business.name, business.businessId)) || []
     }
 
+    /**
+     * Stores a new business in the database
+     * @param {string} name
+     */
     static async create(name) {
         const url = `/business`
         const body = {
@@ -40,6 +48,10 @@ export default class Business {
         return response
     }
 
+    /**
+     * Updates an existing business in the database
+     * @param {{ businessId: string, name: string }} object
+     */
     static async update({ businessId, name }) {
         const url = `/business/${businessId}`
         const body = {
@@ -54,6 +66,10 @@ export default class Business {
         return response
     }
 
+    /**
+     * Deletes a business from the database
+     * @param {string} businessId
+     */
     static async delete(businessId) {
         const url = `/business/${businessId}`
         const response = await axios.delete(url, config).then(response => {

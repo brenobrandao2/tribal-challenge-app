@@ -18,6 +18,10 @@ export default class Person {
         this.phone = phone
     }
 
+    /**
+     * Returns all persons
+     * @returns {Array<Person>} list of persons
+     */
     static async getAll(businessId) {
         const url = `/business/${businessId}/persons`
         const response = await axios.get(url, config).then(response => {
@@ -34,6 +38,10 @@ export default class Person {
             person.phone)) || []
     }
 
+    /**
+     * Stores a new person in the database
+     * @param {{ businessId: string, person: Person }} object
+     */
     static async create({ businessId, person }) {
         const url = `/business/${businessId}/persons`
         const response = await axios.post(url, person, config).then(response => {
@@ -45,6 +53,10 @@ export default class Person {
         return response
     }
 
+    /**
+     * Updates an existing person in the database
+     * @param {{ businessId: string, personId: string, person: Person }} object
+     */
     static async update({ businessId, personId, person }) {
         const url = `/business/${businessId}/persons/${personId}`
         const response = await axios.put(url, person, config).then(response => {
@@ -56,6 +68,10 @@ export default class Person {
         return response
     }
 
+    /**
+     * Deletes a person from the database
+     * @param {{ businessId: string, personId: string }} object
+     */
     static async delete({ businessId, personId }) {
         const url = `/business/${businessId}/persons/${personId}`
         const response = await axios.delete(url, config).then(response => {
