@@ -20,6 +20,7 @@ export default class Person {
 
     /**
      * Returns all persons
+     * @param {string} businessId
      * @returns {Array<Person>} list of persons
      */
     static async getAll(businessId) {
@@ -83,6 +84,11 @@ export default class Person {
         return response
     }
 
+    /**
+     * Deletes a list of persons from the database
+     * @param {string} businessId
+     * @param {string} personList
+     */
     static async deleteMany(businessId, personList) {
         for(let person of personList) {
             await this.delete({ businessId, personId: person.personId })
